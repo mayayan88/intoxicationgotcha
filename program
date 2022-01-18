@@ -1,0 +1,36 @@
+/*!
+ * MindPlus
+ * uno
+ *
+ */
+#include <UNO_Obloq.h>
+#include <SoftwareSerial.h>
+#include <DFRobot_HuskyLens.h>
+// Create an object
+UNO_Obloq         olq;
+SoftwareSerial    softSerial(2, 12);
+DFRobot_HuskyLens huskylens;
+
+
+// Main program start
+void setup() {
+	Serial.begin(9600);
+	softSerial.begin(9600);
+  olq.startConnect(&softSerial, "Ching", "20051224", "maker.ifttt.com", 80);
+	huskylens.beginI2CUntilSuccess();
+	huskylens.writeAlgorithm(ALGORITHM_OBJECT_CLASSIFICATION);
+	huskylens.writeName(String("Drunk"), 1);
+	huskylens.writeName(String("NotDrunk"), 2);
+	huskylens.request();
+}
+void loop() {
+	if (huskylens.isAppear(1,HUSKYLENSResultBlock)) {
+		Serial.println(olq.get("trigger/Drunk/with/key/Ho6ru5KYzeF2NMwi2zvNZ", 2000));
+		Serial.println("Drunk");
+		delay(1000);
+		if (huskylens.isAppear(2,HUSKYLENSResultBlock)) {
+			Serial.println("Drunk");
+			delay(1000);
+		}
+	}
+}
