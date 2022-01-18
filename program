@@ -16,7 +16,7 @@ DFRobot_HuskyLens huskylens;
 void setup() {
 	Serial.begin(9600);
 	softSerial.begin(9600);
-  olq.startConnect(&softSerial, "Ching", "20051224", "maker.ifttt.com", 80);
+  olq.startConnect(&softSerial, "wifi100", "sPssWiFi", "maker.ifttt.com", 80);
 	huskylens.beginI2CUntilSuccess();
 	huskylens.writeAlgorithm(ALGORITHM_OBJECT_CLASSIFICATION);
 	huskylens.writeName(String("Drunk"), 1);
